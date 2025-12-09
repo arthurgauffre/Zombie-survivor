@@ -57,9 +57,7 @@ public class Shoot : MonoBehaviour
     {
         if (Time.time >= nextShootTime)
         {
-            animator.ResetTrigger("Shoot");
             ShootBullet();
-            animator.SetTrigger("Shoot");
             nextShootTime = Time.time + shootRate;
 
             currentAmmo--;
