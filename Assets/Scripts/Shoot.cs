@@ -19,12 +19,15 @@ public class Shoot : MonoBehaviour
     private float nextShootTime = 0f;
 
     private Animator animator;
+    private AmmoHud ammoHud;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         animator = GetComponent<Animator>();
         currentAmmo = maxAmmo;
+        ammoHud = FindObjectOfType<AmmoHud>();
+        UpdateAmmoDisplay();
     }
 
     // Update is called once per frame
@@ -38,6 +41,7 @@ public class Shoot : MonoBehaviour
                 currentAmmo = maxAmmo;
                 isReloading = false;
                 reloadTimer = 0f;
+                UpdateAmmoDisplay();
             }
             return;
         }
@@ -67,6 +71,7 @@ public class Shoot : MonoBehaviour
                 animator.SetTrigger("Reload");
                 reloadTimer = 0f;
             }
+            UpdateAmmoDisplay();
         }
     }
 
@@ -77,6 +82,16 @@ public class Shoot : MonoBehaviour
         if (rb != null)
         {
             rb.AddForce(shootPoint.forward * shootForce, ForceMode.Impulse);
+        }
+    }
+
+    private void UpdateAmmoDisplay()
+    {
+        if (ammoHud != null)
+        {
+            // ensure non-negative display
+            int displayAmmo = Mathf.Max(0, currentAmmo);
+            ammoHud.UpdateAmmo(displayAmmo, maxAmmo);
         }
     }
 }

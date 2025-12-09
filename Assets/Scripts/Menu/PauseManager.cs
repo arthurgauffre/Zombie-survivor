@@ -26,6 +26,9 @@ public class PauseManager : MonoBehaviour
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         isPaused = false;
+        // Lock cursor again so player can look around
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     public void Pause()
@@ -33,12 +36,9 @@ public class PauseManager : MonoBehaviour
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         isPaused = true;
-    }
-
-    public void OpenSettings()
-    {
-        Debug.Log("Opening Settings...");
-        // Ajoutez votre logique pour ouvrir le menu des paramètres
+        // Unlock cursor so player can use UI
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     public void ReturnToMainMenu()
