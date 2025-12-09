@@ -1956,6 +1956,8 @@ MonoBehaviour:
   shootPoint: {fileID: 1142618767373041507}
   shootForce: 20
   shootRate: 0.5
+  maxAmmo: 30
+  reloadTime: 1.4
 --- !u!95 &2725236178038629534
 Animator:
   serializedVersion: 7

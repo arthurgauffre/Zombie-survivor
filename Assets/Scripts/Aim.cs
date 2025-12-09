@@ -15,8 +15,5 @@ public class Aim : MonoBehaviour
     {
         bool isAiming = Input.GetButton("Fire2");
         animator.SetBool("Aiming", isAiming);
-
-        if (isAiming)
-            Debug.Log("Aiming");
     }
 }
