@@ -4,48 +4,41 @@ using UnityEngine.AI;
 public class Zombies : MonoBehaviour
 {
     public int health = 3;
-    public float detectionRange = 10f;
     public float attackRange = 1.5f;
+
+    private bool isDead = false;
+
     private Transform player;
     private NavMeshAgent agent;
     private Animator animator;
-    private bool isDead = false;
 
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-
-        animator.SetBool("isWalking", true); ////////////
     }
 
     void Update()
     {
         if (isDead) return;
 
+        agent.SetDestination(player.position);
+
+        float speed = agent.velocity.magnitude;
+        animator.SetFloat("Speed", speed);
+
         float distance = Vector3.Distance(transform.position, player.position);
 
-        //if (distance <= detectionRange)
-        //{
-            agent.SetDestination(player.position);
-            animator.SetBool("isWalking", true);
-
-            if (distance <= attackRange)
-            {
-                animator.SetTrigger("attack");
-                agent.isStopped = true;
-            }
-            /*else
-            {
-                agent.isStopped = false;
-            }*/
-       /* }
+        if (distance <= attackRange)
+        {
+            animator.SetTrigger("Bite");
+            agent.isStopped = true;
+        }
         else
         {
-            animator.SetBool("isWalking", false);
-            agent.isStopped = true;
-        }*/
+            agent.isStopped = false;
+        }
     }
 
     public void TakeDamage(int damage)
@@ -53,23 +46,18 @@ public class Zombies : MonoBehaviour
         if (isDead) return;
 
         health -= damage;
-        animator.SetTrigger("hit");
 
         if (health <= 0)
         {
             Die();
         }
-        /*else if (health == 2)
-        {
-            animator.SetTrigger("jump");
-        }*/
     }
 
     void Die()
     {
         isDead = true;
         agent.isStopped = true;
-        animator.SetTrigger("die");
-        Destroy(gameObject, 3f);
+        animator.SetTrigger("Die");
+        Destroy(gameObject, 4f);
     }
 }
