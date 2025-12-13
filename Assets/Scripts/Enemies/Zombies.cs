@@ -17,6 +17,8 @@ public class Zombies : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+
+        DeactivateRagdoll();
     }
 
     void Update()
@@ -57,7 +59,46 @@ public class Zombies : MonoBehaviour
     {
         isDead = true;
         agent.isStopped = true;
+        agent.enabled = false;
         animator.SetTrigger("Die");
-        Destroy(gameObject, 4f);
+
+        ActivateRagdoll(); 
+        Destroy(gameObject, 5f);
+    }
+
+    public void DeactivateRagdoll()
+    {
+        animator.enabled = true;
+        foreach (Rigidbody bone in
+        GetComponentsInChildren<Rigidbody>())
+        {
+            bone.isKinematic = true;
+            bone.detectCollisions = false;
+        }
+        foreach (CharacterJoint joint in
+        GetComponentsInChildren<CharacterJoint>())
+        {
+            joint.enableProjection = true;
+        }
+        foreach (Collider col in
+        GetComponentsInChildren<Collider>())
+        {
+            col.enabled = false;
+        }
+    }
+
+    public void ActivateRagdoll()
+    {
+        foreach (Rigidbody bone in
+        GetComponentsInChildren<Rigidbody>())
+        {
+            bone.isKinematic = false;
+            bone.detectCollisions = true;
+        }
+        foreach (Collider col in
+        GetComponentsInChildren<Collider>())
+        {
+            col.enabled = true;
+        }
     }
 }
