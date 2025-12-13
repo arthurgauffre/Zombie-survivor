@@ -16,6 +16,8 @@ public class Zombies : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+
+        animator.SetBool("isWalking", true); ////////////
     }
 
     void Update()
@@ -24,8 +26,8 @@ public class Zombies : MonoBehaviour
 
         float distance = Vector3.Distance(transform.position, player.position);
 
-        if (distance <= detectionRange)
-        {
+        //if (distance <= detectionRange)
+        //{
             agent.SetDestination(player.position);
             animator.SetBool("isWalking", true);
 
@@ -34,16 +36,16 @@ public class Zombies : MonoBehaviour
                 animator.SetTrigger("attack");
                 agent.isStopped = true;
             }
-            else
+            /*else
             {
                 agent.isStopped = false;
-            }
-        }
+            }*/
+       /* }
         else
         {
             animator.SetBool("isWalking", false);
             agent.isStopped = true;
-        }
+        }*/
     }
 
     public void TakeDamage(int damage)
@@ -57,10 +59,10 @@ public class Zombies : MonoBehaviour
         {
             Die();
         }
-        else if (health == 2)
+        /*else if (health == 2)
         {
             animator.SetTrigger("jump");
-        }
+        }*/
     }
 
     void Die()

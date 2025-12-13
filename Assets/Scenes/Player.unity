@@ -361,6 +361,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: First Person Controller
       objectReference: {fileID: 0}
+    - target: {fileID: 1361702310427400060, guid: 23b040c5e63290b4585ae6fee40cb467, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 1363749090073709780, guid: 23b040c5e63290b4585ae6fee40cb467, type: 3}
       propertyPath: m_LocalPosition.x
       value: 7.6658335
