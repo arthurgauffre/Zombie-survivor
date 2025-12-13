@@ -1,55 +1,73 @@
-using System.Collections;
-using Unity.VisualScripting;
-using UnityEditor;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.InputSystem.LowLevel;
-using UnityEngine.InputSystem.XR;
+using UnityEngine.AI;
 
 public class Zombies : MonoBehaviour
 {
-    private Animator animator;
-    private CharacterController controller;
-    
-    public float transitionTime = 0.25f;
     public int health = 3;
-
+    public float detectionRange = 10f;
+    public float attackRange = 1.5f;
+    private Transform player;
+    private NavMeshAgent agent;
+    private Animator animator;
+    private bool isDead = false;
 
     void Start()
     {
-        controller = GetComponent<CharacterController>();
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-
-        // timer start
     }
 
     void Update()
     {
-        /*every time update is called, timer ticks by
-        every 10 seconds, spawn rate is upped by 0.5f*/
+        if (isDead) return;
 
-        /*Zombie is idle
-        if (player gets too close to zombie) {
-            Zombie animation switches to walking
-            zombie nav mesh starts chasing player
-        }*/
+        float distance = Vector3.Distance(transform.position, player.position);
 
-        /*a new zombie is spawned from a random spawn point every X seconds
-        as the time ticks by, the spawn rate goes up*/
+        if (distance <= detectionRange)
+        {
+            agent.SetDestination(player.position);
+            animator.SetBool("isWalking", true);
 
-        // If a zombie reaches the player, switch to bite animation
-
-       /* If (a zombie gets shot) {
-            activate shot animation once
-            zombies health goes down by one
-            if (Zombies health reaches 2, and it is close enough) {
-                switch to jump animation
+            if (distance <= attackRange)
+            {
+                animator.SetTrigger("attack");
+                agent.isStopped = true;
             }
-            if (Zombies health reaches 0) {
-                switch to zombie dies animation
-                stop movement
-                after X seconds, zombies body disappears
+            else
+            {
+                agent.isStopped = false;
             }
-        }*/
+        }
+        else
+        {
+            animator.SetBool("isWalking", false);
+            agent.isStopped = true;
+        }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if (isDead) return;
+
+        health -= damage;
+        animator.SetTrigger("hit");
+
+        if (health <= 0)
+        {
+            Die();
+        }
+        else if (health == 2)
+        {
+            animator.SetTrigger("jump");
+        }
+    }
+
+    void Die()
+    {
+        isDead = true;
+        agent.isStopped = true;
+        animator.SetTrigger("die");
+        Destroy(gameObject, 3f);
     }
 }
