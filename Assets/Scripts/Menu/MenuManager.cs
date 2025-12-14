@@ -7,7 +7,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
     public void PlayGame()
     {
         Debug.Log("Play Game method called.");
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Game");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("map");
     }
 
     public void QuitGame()
