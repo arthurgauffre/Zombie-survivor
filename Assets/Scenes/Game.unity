@@ -1000,6 +1000,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenuUI: {fileID: 1999975963}
+  firstSelectedOnPause: {fileID: 0}
+  disableOnPause: []
+  disableOnPauseObjects: []
+  autoDisableRoots: []
 --- !u!4 &493643967
 Transform:
   m_ObjectHideFlags: 0
@@ -2354,7 +2358,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39c797efa5266f241afff096c9969af9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zombiePrefab: {fileID: 6567781783301548534, guid: 826f4a78096ef2345b4548e61439ac6e, type: 3}
+  zombiePrefab: {fileID: 4827518955242855464, guid: 08e9467984e352441b391e25261f0a8f, type: 3}
   spawnPoints:
   - {fileID: 53181002}
   - {fileID: 1678933232}
@@ -2614,7 +2618,7 @@ Transform:
   m_GameObject: {fileID: 1808374169}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 5.26, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
