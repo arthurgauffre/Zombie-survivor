@@ -25,9 +25,6 @@ public class FirstPersonLook : MonoBehaviour
 
     void Update()
     {
-        // If the cursor isn't locked (e.g. when paused or UI open), don't process look input.
-        if (Cursor.lockState != CursorLockMode.Locked) return;
-
         // Get smooth velocity.
         Vector2 mouseDelta = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
         Vector2 rawFrameVelocity = Vector2.Scale(mouseDelta, Vector2.one * sensitivity);
