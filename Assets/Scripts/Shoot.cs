@@ -8,6 +8,9 @@ public class Shoot : MonoBehaviour
     public float shootForce = 20f;
     public float shootRate = 0.5f;
 
+    public AudioClip shootSound;
+    public AudioClip reloadSound;
+
     [Header("Reload Settings")]
     public int maxAmmo = 30;
     public float reloadTime = 1f;
@@ -53,6 +56,7 @@ public class Shoot : MonoBehaviour
         {
             isReloading = true;
             animator.SetTrigger("Reload");
+            AudioSource.PlayClipAtPoint(reloadSound, shootPoint.position);
             reloadTimer = 0f;
         }
     }
@@ -69,6 +73,7 @@ public class Shoot : MonoBehaviour
             {
                 isReloading = true;
                 animator.SetTrigger("Reload");
+                AudioSource.PlayClipAtPoint(reloadSound, shootPoint.position);
                 reloadTimer = 0f;
             }
             UpdateAmmoDisplay();
@@ -79,6 +84,7 @@ public class Shoot : MonoBehaviour
     {
         GameObject bullet = Instantiate(bulletPrefab, shootPoint.position, shootPoint.rotation);
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
+        AudioSource.PlayClipAtPoint(shootSound, shootPoint.position);
         if (rb != null)
         {
             rb.AddForce(shootPoint.forward * shootForce, ForceMode.Impulse);
