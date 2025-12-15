@@ -12,13 +12,15 @@ public class Bullet : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        Zombies zombie = collision.collider.GetComponent<Zombies>();
-
-        if (zombie != null)
+        Health targetHealth = collision.gameObject.GetComponent<Health>();
+        if (collision.gameObject.CompareTag("Zombie"))
         {
-            zombie.TakeDamage(damage);
+            Debug.Log("Hit a zombie!");
         }
-
+        if (targetHealth != null)
+        {
+            targetHealth.TakeDamage(damage);
+        }
         Destroy(gameObject);
     }
 }

@@ -3,7 +3,6 @@ using UnityEngine.AI;
 
 public class Zombies : MonoBehaviour
 {
-    public int health = 3;
     public float attackRange = 1.5f;
 
     private bool isDead = false;
@@ -17,8 +16,6 @@ public class Zombies : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-
-        DeactivateRagdoll();
     }
 
     void Update()
@@ -43,20 +40,10 @@ public class Zombies : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int damage)
+   public void Die()
     {
         if (isDead) return;
 
-        health -= damage;
-
-        if (health <= 0)
-        {
-            Die();
-        }
-    }
-
-    void Die()
-    {
         isDead = true;
         agent.isStopped = true;
         agent.enabled = false;
