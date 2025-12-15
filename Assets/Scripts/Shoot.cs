@@ -5,6 +5,8 @@ public class Shoot : MonoBehaviour
     [Header("Shoot Settings")]
     public GameObject bulletPrefab;
     public Transform shootPoint;
+    public GameObject prefabFlashParticles;
+
     public float shootForce = 20f;
     public float shootRate = 0.5f;
 
@@ -23,6 +25,7 @@ public class Shoot : MonoBehaviour
 
     private Animator animator;
     private AmmoHud ammoHud;
+    private ParticleSystem flashParticles;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -31,6 +34,17 @@ public class Shoot : MonoBehaviour
         currentAmmo = maxAmmo;
         ammoHud = FindObjectOfType<AmmoHud>();
         UpdateAmmoDisplay();
+    }
+
+    void Awake()
+    {
+        if (prefabFlashParticles != null)
+        {
+            GameObject flashInstance = Instantiate(prefabFlashParticles, shootPoint.position, shootPoint.rotation, shootPoint);
+            flashInstance.transform.localPosition = shootPoint.localPosition;
+            flashInstance.transform.localRotation = Quaternion.identity;
+            flashParticles = flashInstance.GetComponent<ParticleSystem>();
+        }
     }
 
     // Update is called once per frame
@@ -66,6 +80,10 @@ public class Shoot : MonoBehaviour
         if (Time.time >= nextShootTime)
         {
             ShootBullet();
+            if (flashParticles != null)
+            {
+                flashParticles.Emit(5);
+            }
             nextShootTime = Time.time + shootRate;
 
             currentAmmo--;
