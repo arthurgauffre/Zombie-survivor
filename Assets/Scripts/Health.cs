@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine.UI;
 using UnityEngine;
 
@@ -49,12 +48,28 @@ public class Health : MonoBehaviour
         }
         if (this.gameObject.CompareTag("Player") && health <= 0)
         {
-            // Show the player death canvas
-            if (playerDeathCanvas != null)
+            // Prefer centralized DeathManager if available
+            if (DeathManager.Instance != null)
             {
-                playerDeathCanvas.SetActive(true);
+                DeathManager.Instance.OnPlayerDeath();
             }
-            Time.timeScale = 0f;
+            else
+            {
+                // Fallback: show the player death canvas (ensure CanvasGroup exists)
+                if (playerDeathCanvas != null)
+                {
+                    CanvasGroup cg = playerDeathCanvas.GetComponent<CanvasGroup>();
+                    if (cg == null) cg = playerDeathCanvas.AddComponent<CanvasGroup>();
+
+                    if (cg != null)
+                    {
+                        cg.interactable = true;
+                        cg.blocksRaycasts = true;
+                    }
+                    playerDeathCanvas.SetActive(true);
+                }
+                Time.timeScale = 0f;
+            }
         }
     }
 }
