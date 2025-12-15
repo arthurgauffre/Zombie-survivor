@@ -6,8 +6,10 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    public int health = 3;
+    public float health = 3f;
+    public float healthRegenRate = 0.1f;
     public Slider healthBar;
+    public GameObject playerDeathCanvas;
 
     // Start is called before the first frame update
     void Start()
@@ -17,10 +19,18 @@ public class Health : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (health < 3)
+        {
+            health += healthRegenRate * Time.deltaTime;
+            if (health > 3)
+            {
+                health = 3;
+            }
+        }
         // Update the health bar if it exists
         if (healthBar != null)
         {
-            healthBar.value = health / 3;
+            healthBar.value = health / 3f;
         }
     }
 
@@ -36,6 +46,15 @@ public class Health : MonoBehaviour
             {
                 zombie.Die();
             }
+        }
+        if (this.gameObject.CompareTag("Player") && health <= 0)
+        {
+            // Show the player death canvas
+            if (playerDeathCanvas != null)
+            {
+                playerDeathCanvas.SetActive(true);
+            }
+            Time.timeScale = 0f;
         }
     }
 }
