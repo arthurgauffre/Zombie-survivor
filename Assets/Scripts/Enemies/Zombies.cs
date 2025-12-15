@@ -64,6 +64,11 @@ public class Zombies : MonoBehaviour
 
         ActivateRagdoll(); 
         Destroy(gameObject, 5f);
+        // update the score
+        if (ScoreManager.Instance != null)
+        {
+            ScoreManager.Instance.AddScore(100);
+        }
     }
 
     public void DeactivateRagdoll()
