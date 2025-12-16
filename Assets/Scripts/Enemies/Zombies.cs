@@ -4,7 +4,8 @@ using UnityEngine.AI;
 public class Zombies : MonoBehaviour
 {
     public float attackRange = 1.5f;
-    public float attackCooldown = 2f;
+    public float attackCooldown = 3f;
+    public float speed = 3f;
 
     private bool isDead = false;
 
@@ -27,13 +28,14 @@ public class Zombies : MonoBehaviour
 
         agent.SetDestination(player.position);
 
-        float speed = agent.velocity.magnitude;
+        //float speed = agent.velocity.magnitude;
         animator.SetFloat("Speed", speed);
 
         float distance = Vector3.Distance(transform.position, player.position);
 
         if (distance <= attackRange && Time.time - lastAttackTime >= attackCooldown)
         {
+            agent.isStopped = true;
             animator.SetTrigger("Bite");
             lastAttackTime = Time.time;
             // get the player in the attack range to take damage
@@ -44,7 +46,6 @@ public class Zombies : MonoBehaviour
                 playerHealth.TakeDamage(1); // Example damage value
             }
 
-            agent.isStopped = true;
         }
         else
         {
